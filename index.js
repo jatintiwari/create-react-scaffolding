@@ -62,8 +62,8 @@ const init = () => {
 
 init()
   .then(askForVersions)
+  .then(executeCommands)
   .then(createAppStructure)
-  // .then(executeCommands)
   .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('Something went wrong', error.message)

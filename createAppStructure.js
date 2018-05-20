@@ -17,11 +17,21 @@ const appConstruct = [{
       name: 'js',
       files: [{
         name: 'index.js'
+      }],
+      subFolders: [{
+        name: 'store'
+      }, {
+        name: 'reducers'
+      }, {
+        name: 'actions'
       }]
     }, {
       name: 'images'
     }, {
-      name: 'css'
+      name: 'css',
+      files: [{
+        name: 'index.css'
+      }],
     }]
   }]
 }];
@@ -30,14 +40,12 @@ const checkForDirSubFolders = (dir, dirPath) => {
   if (dir.subFolders && dir.subFolders.length) {
     return createAppStructure(dir.subFolders, dirPath);
   }
-  if (dir.files && dir.files.length) {
-    return checkForDirFiles(dir, dirPath);
-  }
   return false;
 }
 
 const checkForDirFiles = (dir, dirPath) => {
-  terminal.yellow(`***********************\n`);
+  if(!dir.files) return true;
+  terminal.yellow(`\n***********************\n`);
   return dir.files.reduce((pr, file) => {
     let filePath = [dirPath, file.name].join("/");
     terminal.green(`[creating] ${filePath}`);
@@ -52,7 +60,7 @@ const createAppStructure = (construct, parentDirName = undefined) => {
     return pr.then(() => {
       return commands.createDir(dirPath)
         .then(checkForDirSubFolders.bind(null, dir, dirPath))
-        // .then(resolve)
+        .then(checkForDirFiles.bind(null, dir, dirPath))
         .catch(error => {
           terminal.bgRed(` ${error.message} \n ${error.stack}`);
           reject(error);
