@@ -3,6 +3,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
+const createAppStructure = require('./createAppStructure');
 
 // constants
 const versionMap = {
@@ -39,7 +40,6 @@ const askForVersions = (previousSelectedValues) => {
 };
 
 const executeCommands = (selectedVersions) => {
-  console.log('Executing commands');
   return Object.keys(selectedVersions).reduce((pr, service) => {
     let version = selectedVersions[service];
     return pr.then(() => {
@@ -52,7 +52,7 @@ const executeCommands = (selectedVersions) => {
   }, Promise.resolve());
 };
 
-const init = function () {
+const init = () => {
   const selectedVersions = {
     react: null,
     redux: null
@@ -62,8 +62,9 @@ const init = function () {
 
 init()
   .then(askForVersions)
-  .then(executeCommands)
-  .then(response => process.exit())
+  .then(createAppStructure)
+  // .then(executeCommands)
+  .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('Something went wrong', error.message)
     process.exit();
