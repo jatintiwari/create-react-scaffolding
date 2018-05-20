@@ -5,6 +5,6 @@
   * `bin` entry adds a mapping between the command used in terminal and the actual JavaScript file that will be run each time this command is invoked
   * `npm link` to symlink the script to `/user/loca/bin/node-cli`
 
-* API (currently non persistant)
-  * `get` => gets contact from the map
-  * `add` => adds contact to the map
+* current versions 
+  * `react` => 16.1.0, 16.0.0
+  * `redux` => 4.0.0, 3.7.1

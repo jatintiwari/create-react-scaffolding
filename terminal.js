@@ -2,6 +2,7 @@
 "use strict";
 // dependencies
 const terminal = require('terminal-kit').terminal;
+const commands = require('./commands');
 
 // constants
 const versionMap = {
@@ -37,6 +38,20 @@ const askForVersions = (previousSelectedValues) => {
   }, Promise.resolve(previousSelectedValues));
 };
 
+const executeCommands = (selectedVersions) => {
+  console.log('Executing commands');
+  return Object.keys(selectedVersions).reduce((pr, service) => {
+    let version = selectedVersions[service];
+    return pr.then(() => {
+      return new Promise((resolve, reject) => {
+        commands.npmInstall(service, version)
+          .then(resolve)
+          .catch(reject);
+      })
+    });
+  }, Promise.resolve());
+};
+
 const init = function () {
   const selectedVersions = {
     react: null,
@@ -47,10 +62,9 @@ const init = function () {
 
 init()
   .then(askForVersions)
-  .then((selectedVersions) => {
-    console.log(selectedVersions);
-    process.exit();
-  }).catch((error) => {
-    terminal.red(error.message)
+  .then(executeCommands)
+  .then(response => process.exit())
+  .catch((error) => {
+    terminal.red('Something went wrong', error.message)
     process.exit();
   });
