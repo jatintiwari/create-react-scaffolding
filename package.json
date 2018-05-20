@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "node command line app",
   "preferGlobal": true,
+  "main":"terminal.js",
   "scripts": {
     "clean": "rm -rf app",
     "keep-prod": "npm prune --production"
