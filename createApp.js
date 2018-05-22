@@ -16,7 +16,8 @@ const appConstruct = [{
   name: getAppName(),
   cmdPrefix: CHANGE_FOLDER_CMD,
   files:[{
-    name: '.gitignore'
+    name: '.gitignore',
+    content: `node_modules/`
   }],
   commandSeries: [NPM_INIT]
 }];
@@ -60,7 +61,8 @@ const checkForDirFiles = (dir, dirPath) => {
   return dir.files.reduce((pr, file) => {
     let filePath = [dirPath, file.name].join("/");
     terminal.green(`[creating] ${filePath}\n`);
-    return commands.createFile(filePath);
+    return commands.createFile(filePath)
+      .then(commands.addContentToFile.bind(null, filePath, file.content));
   }, Promise.resolve());
 }
 
@@ -68,7 +70,6 @@ const checkForCommandSeries = (dir) => {
   if(dir.commandSeries === undefined) return Promise.resolve();
   return dir.commandSeries.reduce((pr, cmd) => {
     return pr.then((data, error) => {
-      console.log(data, error);
       let _cmd = [dir.cmdPrefix, cmd].join(' \n ');
       return commands.exec(_cmd);
     })

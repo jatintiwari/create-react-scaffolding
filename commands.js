@@ -31,6 +31,14 @@ const commandsModule = {
       cd ${getAppName()} 
       npm i ${dev ? '--save-dev' : '--save'} ${package}@${version}`
     );
+  },
+  addContentToFile(file, content) {
+    terminal.green(`\n *** adding content to file *** \n`)
+    terminal.green(`file: ${file}, content: '${content}'`);
+    return execAsync(`
+      cd ${getAppName()}
+      echo '${content}' > ${file}
+    `)
   }
 }
 
