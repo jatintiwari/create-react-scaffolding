@@ -6,7 +6,7 @@ const terminal = require('terminal-kit').terminal;
 
 /* private */
 const execAsync = (cmd) => {
-  console.log('cmd =>', cmd);
+  // console.log('cmd =>', cmd);
   return new Promise((resolve, reject) => {
     command.get(cmd, resolve);
   });
@@ -36,7 +36,6 @@ const commandsModule = {
     terminal.green(`\n *** adding content to file *** \n`)
     terminal.green(`file: ${file}, content: '${content}'`);
     return execAsync(`
-      cd ${getAppName()}
       echo '${content}' > ${file}
     `)
   }
