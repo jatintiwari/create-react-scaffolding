@@ -4,23 +4,27 @@
 const command = require('node-cmd');
 const terminal = require('terminal-kit').terminal;
 
+/* private */
+const execAsync = (cmd) => {
+  console.log('cmd =>', cmd);
+  return new Promise(( resolve, reject) => {
+    command.get(cmd, resolve);
+  });
+}
+/* private end */
+
 // module
 const commandsModule = {
+  exec: execAsync,
   createFile(fileName){
-    return new Promise((resolve, reject) => {
-      command.get(`touch ${fileName}`, resolve);
-    })
+    return execAsync(`touch ${fileName}`)
   },
   createDir(dirName){
-    return new Promise((resolve, reject) => {
-      command.get(`mkdir ${dirName}`, resolve);
-    })
+    return execAsync(`mkdir ${dirName}`)
   },
   npmInstall(package, version){
     terminal.green(`install: ${package}@${version}\n`);
-    return new Promise((resolve, reject) => {
-      command.get(`npm i --save-dev ${package}@${version}`, resolve);
-    })
+    return execAsync(`npm i --save-dev ${package}@${version}`);
   }
 }
 

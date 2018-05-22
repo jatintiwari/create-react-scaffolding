@@ -3,7 +3,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
-const createAppStructure = require('./createAppStructure');
+const { createApp, createAppSubFolderStructure } = require('./createApp');
 
 // constants
 const versionMap = {
@@ -21,20 +21,21 @@ const globalOptions = {};
  * @param {{}} options 
  * @param {function} cb 
  */
-const askForVersion = (service = undefined, availableVersions = [], options = {}, cb) => {
-  terminal.green(`Select ${service} version`);
-  terminal.singleColumnMenu(availableVersions, options, cb)
+const askForVersion = (service = undefined, availableVersions = [], options = {}) => {
+  return new Promise((resolve, reject) => {
+    terminal.green(`Select ${service} version`);
+    terminal.singleColumnMenu(availableVersions, options,  (error, response) => {
+      return error ? reject() : resolve({ [service]: response.selectedText });
+    })
+  });
 };
 
 const askForVersions = (previousSelectedValues) => {
   return Object.keys(versionMap).reduce((pr, service) => {
     let versions = versionMap[service];
     return pr.then((selectedVersions) => {
-      return new Promise((resolve, reject) => {
-        askForVersion(service, versions, globalOptions, (error, response) => {
-          resolve(Object.assign({}, selectedVersions, { [service]: response.selectedText }))
-        });
-      });
+      return askForVersion(service, versions, globalOptions)
+      .then((response) => Object.assign({}, selectedVersions, response));
     })
   }, Promise.resolve(previousSelectedValues));
 };
@@ -61,9 +62,10 @@ const init = () => {
 };
 
 init()
-  .then(askForVersions)
-  .then(executeCommands)
-  .then(createAppStructure)
+  .then(createApp)
+  // .then(askForVersions)
+  // .then(executeCommands)
+  .then(createAppSubFolderStructure)
   .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('Something went wrong', error.message)
