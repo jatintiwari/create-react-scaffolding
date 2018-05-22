@@ -5,7 +5,7 @@
   "preferGlobal": true,
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf app",
+    "clean": "rm -rf myapp",
     "keep-prod": "npm prune --production"
   },
   "bin": {
