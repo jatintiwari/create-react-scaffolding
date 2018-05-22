@@ -2,6 +2,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
+const { defaultJS, gitIgnore, defaultCSS } = require('./content');
 
 // helpers
 const getAppName = () => {
@@ -15,9 +16,9 @@ const NPM_INIT = `npm init -y`;
 const appConstruct = [{
   name: getAppName(),
   cmdPrefix: CHANGE_FOLDER_CMD,
-  files:[{
+  files: [{
     name: '.gitignore',
-    content: `node_modules/`
+    content: [gitIgnore]
   }],
   commandSeries: [NPM_INIT]
 }];
@@ -27,21 +28,35 @@ const appSubFolderConstruct = [{
   subFolders: [{
     name: 'js',
     files: [{
-      name: 'index.js'
+      name: 'index.js',
+      content: [defaultJS]
     }],
     subFolders: [{
-      name: 'store'
+      name: 'store',
+      files: [{
+        name: 'index.js',
+        content: [defaultJS]
+      }]
     }, {
-      name: 'reducers'
+      name: 'reducers',
+      files: [{
+        name: 'index.js',
+        content: [defaultJS]
+      }]
     }, {
-      name: 'actions'
+      name: 'actions',
+      files: [{
+        name: 'index.js',
+        content: [defaultJS]
+      }]
     }]
   }, {
     name: 'images'
   }, {
     name: 'css',
     files: [{
-      name: 'index.css'
+      name: 'index.css',
+      content: [defaultCSS]
     }],
   }]
 }];
@@ -62,12 +77,15 @@ const checkForDirFiles = (dir, dirPath) => {
     let filePath = [dirPath, file.name].join("/");
     terminal.green(`[creating] ${filePath}\n`);
     return commands.createFile(filePath)
-      .then(commands.addContentToFile.bind(null, filePath, file.content));
+      .then(() => {
+        if (file.content === undefined) return Promise.resolve();
+        return commands.addContentToFile(filePath, file.content.join('\n'));
+      });
   }, Promise.resolve());
 }
 
 const checkForCommandSeries = (dir) => {
-  if(dir.commandSeries === undefined) return Promise.resolve();
+  if (dir.commandSeries === undefined) return Promise.resolve();
   return dir.commandSeries.reduce((pr, cmd) => {
     return pr.then((data, error) => {
       let _cmd = [dir.cmdPrefix, cmd].join(' \n ');
