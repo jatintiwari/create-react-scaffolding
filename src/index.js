@@ -17,9 +17,9 @@ const init = () => {
 
 init()
   .then(createApp)
-  // .then(askForVersions)
-  // .then(installVersions)
-  // .then(createAppSubFolderStructure)
+  .then(askForVersions)
+  .then(installVersions)
+  .then(createAppSubFolderStructure)
   .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('\nSomething went wrong\n')

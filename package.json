@@ -9,7 +9,7 @@
     "keep-prod": "npm prune --production"
   },
   "bin": {
-    "create-react-scaffolding": "./index.js"
+    "create-react-scaffolding": "./src/index.js"
   },
   "keywords": [],
   "author": "",
