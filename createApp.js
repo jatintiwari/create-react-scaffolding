@@ -2,7 +2,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
-const { defaultJS, gitIgnore, defaultCSS } = require('./content');
+const { defaults:{ js, css, webpackConfig}, gitIgnore, imports } = require('./content');
 
 // helpers
 const getAppName = () => {
@@ -19,35 +19,47 @@ const appConstruct = [{
   files: [{
     name: '.gitignore',
     content: [gitIgnore]
+  }, {
+    name: 'webpack.config.js',
+    content: [webpackConfig]
+  }, {
+    name: 'README.md',
+    content: [`# ${getAppName()}`]
   }],
   commandSeries: [NPM_INIT]
 }];
 
 const appSubFolderConstruct = [{
-  name: 'assets',
+  name: 'src',
   subFolders: [{
     name: 'js',
     files: [{
       name: 'index.js',
-      content: [defaultJS]
+      content: [js]
     }],
     subFolders: [{
+      name: 'components',
+      files: [{
+        name: 'index.js',
+        content: [js]
+      }]
+    }, {
       name: 'store',
       files: [{
         name: 'index.js',
-        content: [defaultJS]
+        content: [js]
       }]
     }, {
       name: 'reducers',
       files: [{
         name: 'index.js',
-        content: [defaultJS]
+        content: [js]
       }]
     }, {
       name: 'actions',
       files: [{
         name: 'index.js',
-        content: [defaultJS]
+        content: [js]
       }]
     }]
   }, {
@@ -56,7 +68,7 @@ const appSubFolderConstruct = [{
     name: 'css',
     files: [{
       name: 'index.css',
-      content: [defaultCSS]
+      content: [css]
     }],
   }]
 }];
