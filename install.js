@@ -4,8 +4,14 @@ const commands = require('./commands');
 
 /* constants */
 const versionMap = {
-  'react': ['16.1.0', '16.0.0'],
-  'redux': ['4.0.0', '3.7.1']
+  "react": ["16.0.0", "16.1.0"],
+  "redux": ["3.7.1", "4.0.0"],
+  "redux-logger": ["3.0.6"],
+  "redux-thunk": ["2.2.0"],
+  "react-dom": ["16.3.2"],
+  "webpack": ["3.11.0", "4.8.3"],
+  "webpack-dev-server": ["3.1.4"],
+  "react-router-dom": ["4.2.2"]
 }
 const globalOptions = {};
 
@@ -22,7 +28,8 @@ const selectedVersions = {
  */
 const askForVersion = (service = undefined, availableVersions = [], options = globalOptions) => {
   return new Promise((resolve, reject) => {
-    terminal.green(`Select ${service} version`);
+    if(availableVersions.length === 1) return resolve({ [service]: availableVersions[0] });
+    terminal.green(`\n Select ${service} version`);
     terminal.singleColumnMenu(availableVersions, options, (error, response) => {
       return error ? reject() : resolve({ [service]: response.selectedText });
     })
