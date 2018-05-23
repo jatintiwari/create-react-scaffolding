@@ -8,7 +8,9 @@ const terminal = require('terminal-kit').terminal;
 const execAsync = (cmd) => {
   // console.log('cmd =>', cmd);
   return new Promise((resolve, reject) => {
+    // terminal.yellow(`\n******cmd start*******`);
     command.get(cmd, resolve);
+    // terminal.white(`\n******cmd end*******`);
   });
 }
 const getAppName = () => {
@@ -20,9 +22,11 @@ const getAppName = () => {
 const commandsModule = {
   exec: execAsync,
   createFile(fileName) {
+    terminal.green(`\n[creating-file] ${fileName}`);
     return execAsync(`touch ${fileName}`)
   },
   createDir(dirName) {
+    terminal.green(`\n[creating-dir] ${dirName}`);
     return execAsync(`mkdir ${dirName}`)
   },
   npmInstall(package, version, dev = false) {
@@ -33,8 +37,7 @@ const commandsModule = {
     );
   },
   addContentToFile(file, content) {
-    terminal.green(`\n *** adding content to file *** \n`)
-    terminal.green(`file: ${file}, content: '${content}'`);
+    terminal.yellow("\n *** ").blue(`[adding-content] to file: ${file}`).yellow(" ***");
     return execAsync(`
       echo '${content}' > ${file}
     `)

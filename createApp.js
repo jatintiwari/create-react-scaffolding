@@ -72,10 +72,8 @@ const checkForDirSubFolders = (dir, dirPath) => {
 
 const checkForDirFiles = (dir, dirPath) => {
   if (!dir.files) return true;
-  terminal.yellow(`\n***********************\n`);
   return dir.files.reduce((pr, file) => {
     let filePath = [dirPath, file.name].join("/");
-    terminal.green(`[creating] ${filePath}\n`);
     return commands.createFile(filePath)
       .then(() => {
         if (file.content === undefined) return Promise.resolve();
@@ -97,7 +95,6 @@ const checkForCommandSeries = (dir) => {
 const createConstruct = (construct, parentDirName) => {
   return construct.reduce((pr, dir) => {
     const dirPath = parentDirName !== undefined ? [parentDirName, dir.name].join("/") : dir.name;
-    terminal.green(`[creating] ${dirPath} \n\n`);
     return pr.then(() => {
       return commands.createDir(dirPath)
         .then(checkForDirSubFolders.bind(null, dir, dirPath))
