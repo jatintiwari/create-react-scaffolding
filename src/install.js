@@ -4,21 +4,61 @@ const commands = require('./commands');
 
 /* constants */
 const versionMap = {
-  "react": ["16.0.0", "16.1.0"],
-  "redux": ["3.7.1", "4.0.0"],
-  "redux-logger": ["3.0.6"],
-  "redux-thunk": ["2.2.0"],
-  "react-dom": ["16.3.2"],
-  "webpack": ["3.11.0", "4.8.3"],
-  "webpack-dev-server": ["3.1.4"],
-  "react-router-dom": ["4.2.2"]
+  "react": {
+    versions: ["16.0.0", "16.1.0"],
+    dev: false
+  },
+  "redux": {
+    versions: ["3.7.1", "4.0.0"],
+    dev: false
+  },
+  "redux-logger": {
+    versions: ["3.0.6"],
+    dev: false
+  },
+  "redux-thunk": {
+    versions: ["2.2.0"],
+    dev: false
+  },
+  "react-dom": {
+    versions: ["16.3.2"],
+    dev: false
+  },
+  "webpack": {
+    versions: ["3.11.0", "4.8.3"],
+    dev: false
+  },
+  "webpack-dev-server": {
+    versions: ["3.1.4"],
+    dev: false
+  },
+  "react-router-dom": {
+    versions: ["4.2.2"],
+    dev: false
+  },
+  "babel-core": {
+    versions: ["6.26.3"],
+    dev: true
+  },
+  "babel-jest": {
+    versions: ["22.4.3"],
+    dev: true
+  },
+  "babel-loader": {
+    versions: ["7.1.4"],
+    dev: true
+  },
+  "babel-preset-env": {
+    versions: ["1.6.1"],
+    dev: true
+  },
+  "babel-preset-react": {
+    versions: ["6.24.1"],
+    dev: true
+  }
 }
-const globalOptions = {};
 
-const selectedVersions = {
-  react: null,
-  redux: null
-}
+const globalOptions = {};
 
 /**
  * @param {String} service 
@@ -28,8 +68,8 @@ const selectedVersions = {
  */
 const askForVersion = (service = undefined, availableVersions = [], options = globalOptions) => {
   return new Promise((resolve, reject) => {
-    if(availableVersions.length === 1) return resolve({ [service]: availableVersions[0] });
-    terminal.green(`\n Select ${service} version`);
+    if (availableVersions.length === 1) return resolve({ [service]: availableVersions[0] });
+    terminal.eraseLineBefore().green(`\n select ${service} version`);
     terminal.singleColumnMenu(availableVersions, options, (error, response) => {
       return error ? reject() : resolve({ [service]: response.selectedText });
     })
@@ -39,11 +79,13 @@ const askForVersion = (service = undefined, availableVersions = [], options = gl
 };
 
 exports.askForVersions = () => {
-  return Object.keys(versionMap).reduce((pr, service) => {
-    let versions = versionMap[service];
+  const selectedVersions = {};
+  return Object.keys(versionMap).reduce((pr, serviceName) => {
+    let service = versionMap[serviceName];
+    let versions = service.versions;
     return pr.then((selectedVersions) => {
-      return askForVersion(service, versions)
-        .then((response) => Object.assign({}, selectedVersions, response));
+      return askForVersion(serviceName, versions)
+        .then((response) => Object.assign(selectedVersions, response));
     })
   }, Promise.resolve(selectedVersions)).catch(error => {
     terminal.bgRed(error.stack);
@@ -51,16 +93,12 @@ exports.askForVersions = () => {
 };
 
 exports.installVersions = (selectedVersions) => {
-  return Object.keys(selectedVersions).reduce((pr, service) => {
-    let version = selectedVersions[service];
-    return pr.then(() => {
-      return new Promise((resolve, reject) => {
-        commands.npmInstall(service, version)
-          .then(resolve)
-          .catch(reject);
-      })
+  return Object.keys(selectedVersions).reduce((pr, serviceName) => {
+    let version = selectedVersions[serviceName];
+    let serv = versionMap[serviceName];
+    return pr.then(() => commands.npmInstall(serviceName, version, serv.dev));
+  }, Promise.resolve())
+    .catch(error => {
+      terminal.bgRed(error.stack);
     });
-  }, Promise.resolve()).catch(error => {
-    terminal.bgRed(error.stack);
-  });
 };
