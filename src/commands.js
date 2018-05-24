@@ -30,7 +30,7 @@ const commandsModule = {
     return execAsync(`mkdir ${dirName}`)
   },
   npmInstall(package, version, dev = false) {
-    terminal.green(`install: ${package}@${version}\n`);
+    terminal.green(`install${dev ? '-dev' : ''}: ${package}@${version}\n`);
     return execAsync(`
       cd ${getAppName()} 
       npm i ${dev ? '--save-dev' : '--save'} ${package}@${version}`
