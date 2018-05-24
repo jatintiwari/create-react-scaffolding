@@ -22,22 +22,22 @@ const getAppName = () => {
 const commandsModule = {
   exec: execAsync,
   createFile(fileName) {
-    terminal.green(`\n[creating-file] ${fileName}`);
+    terminal.cyan(`\n[creating] `).green(`${fileName}`);
     return execAsync(`touch ${fileName}`)
   },
   createDir(dirName) {
-    terminal.green(`\n[creating-dir] ${dirName}`);
+    terminal.yellow(`\n[creating] `).green(`${dirName}`);
     return execAsync(`mkdir ${dirName}`)
   },
   npmInstall(package, version, dev = false) {
-    terminal.green(`install${dev ? '-dev' : ''}: ${package}@${version}\n`);
+    terminal.white(`install${dev ? '-dev' : ''}`).green(` ${package}@${version}\n`);
     return execAsync(`
       cd ${getAppName()} 
       npm i ${dev ? '--save-dev' : '--save'} ${package}@${version}`
     );
   },
   addContentToFile(file, content) {
-    terminal.yellow("\n *** ").blue(`[adding-content] to file: ${file}`).yellow(" ***");
+    terminal.white("\n[adding-content] ").blue(`to file: ${file}`);
     return execAsync(`
       echo '${content}' > ${file}
     `)
