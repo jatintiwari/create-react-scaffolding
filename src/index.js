@@ -23,6 +23,6 @@ init()
   .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('\nSomething went wrong\n')
-    console.error(error.message);
+    console.error(error.message, error.stack);
     process.exit();
   });
