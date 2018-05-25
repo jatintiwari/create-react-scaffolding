@@ -2,6 +2,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
+const { CHANGE_FOLDER_CMD, NPM_INIT } = commands;
 const { defaults:{ js, css, webpackConfig}, gitIgnore, imports } = require('./content');
 
 // helpers
@@ -10,9 +11,6 @@ const getAppName = () => {
 }
 
 /* constants */
-const CHANGE_FOLDER_CMD = `cd ${getAppName()}`;
-const NPM_INIT = `npm init -y`;
-
 const appConstruct = [{
   name: getAppName(),
   cmdPrefix: CHANGE_FOLDER_CMD,

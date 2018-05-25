@@ -17,6 +17,8 @@ const getAppName = () => {
 // module
 const commandsModule = {
   exec: execAsync,
+  CHANGE_FOLDER_CMD: `cd ${getAppName()}`,
+  NPM_INIT: `npm init -y`,
   createFile(fileName) {
     terminal.cyan(`\n[creating] `).green(`${fileName}`);
     return execAsync(`touch ${fileName}`)
