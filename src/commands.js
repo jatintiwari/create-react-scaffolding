@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // dependencies
 const command = require('node-cmd');
 const terminal = require('terminal-kit').terminal;
@@ -8,9 +6,7 @@ const terminal = require('terminal-kit').terminal;
 const execAsync = (cmd) => {
   // console.log('cmd =>', cmd);
   return new Promise((resolve, reject) => {
-    // terminal.yellow(`\n******cmd start*******`);
     command.get(cmd, resolve);
-    // terminal.white(`\n******cmd end*******`);
   });
 }
 const getAppName = () => {
