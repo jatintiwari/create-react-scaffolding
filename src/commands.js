@@ -27,11 +27,12 @@ const commandsModule = {
     terminal.yellow(`\n[creating] `).green(`${dirName}`);
     return execAsync(`mkdir ${dirName}`)
   },
-  npmInstall(package, version, dev = false) {
-    terminal.white(`install${dev ? '-dev' : ''}`).green(` ${package}@${version}\n`);
+  npmInstall(packageName, version, dev = false) {
+    terminal.white(`install${dev ? '-dev' : ''}`).green(` ${packageName}@${version}\n`);
+    // return Promise.resolve();
     return execAsync(`
       cd ${getAppName()} 
-      npm i ${dev ? '--save-dev' : '--save'} ${package}@${version}`
+      npm i ${dev ? '--save-dev' : '--save'} ${packageName}@${version}`
     );
   },
   addContentToFile(file, content) {

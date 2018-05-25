@@ -1,76 +1,12 @@
-
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
-const { CHANGE_FOLDER_CMD, NPM_INIT } = commands;
-const { defaults:{ js, css, webpackConfig}, gitIgnore, imports } = require('./content');
+const { appSchema, appSubFolderSchema } = require('./schema');
 
-// helpers
+/* helpers */
 const getAppName = () => {
   return process.argv[2] ? process.argv[2] : 'myapp';
 }
-
-/* constants */
-const appConstruct = [{
-  name: getAppName(),
-  cmdPrefix: CHANGE_FOLDER_CMD,
-  files: [{
-    name: '.gitignore',
-    content: [gitIgnore]
-  }, {
-    name: 'webpack.config.js',
-    content: [webpackConfig]
-  }, {
-    name: 'README.md',
-    content: [`# ${getAppName()}`]
-  }],
-  commandSeries: [NPM_INIT]
-}];
-
-const appSubFolderConstruct = [{
-  name: 'src',
-  subFolders: [{
-    name: 'js',
-    files: [{
-      name: 'index.js',
-      content: [js]
-    }],
-    subFolders: [{
-      name: 'components',
-      files: [{
-        name: 'index.js',
-        content: [js]
-      }]
-    }, {
-      name: 'store',
-      files: [{
-        name: 'index.js',
-        content: [js]
-      }]
-    }, {
-      name: 'reducers',
-      files: [{
-        name: 'index.js',
-        content: [js]
-      }]
-    }, {
-      name: 'actions',
-      files: [{
-        name: 'index.js',
-        content: [js]
-      }]
-    }]
-  }, {
-    name: 'images'
-  }, {
-    name: 'css',
-    files: [{
-      name: 'index.css',
-      content: [css]
-    }],
-  }]
-}];
-/* constants end */
 
 /* module */
 const checkForDirSubFolders = (dir, dirPath) => {
@@ -118,10 +54,10 @@ const createConstruct = (construct, parentDirName) => {
   }, Promise.resolve());
 }
 /* module ends */
-exports.createAppSubFolderStructure = () => {
-  return createConstruct(appSubFolderConstruct, getAppName());
+exports.createAppSubFolderSchema = () => {
+  return createConstruct(appSubFolderSchema, getAppName());
 };
 
 exports.createApp = () => {
-  return createConstruct(appConstruct, undefined);
+  return createConstruct([appSchema], undefined);
 };

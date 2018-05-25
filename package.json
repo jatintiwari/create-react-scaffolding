@@ -5,8 +5,10 @@
   "preferGlobal": true,
   "main": "index.js",
   "scripts": {
+    "start": "npm run clean && create-react-scaffolding",
     "clean": "rm -rf myapp",
-    "keep-prod": "npm prune --production"
+    "keep-prod": "npm prune --production",
+    "test": "jest"
   },
   "bin": {
     "create-react-scaffolding": "./src/index.js"
@@ -18,7 +20,9 @@
     "node-cmd": "^3.0.0",
     "terminal-kit": "^1.17.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^23.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jatintiwari/create-react-scaffolding.git"
