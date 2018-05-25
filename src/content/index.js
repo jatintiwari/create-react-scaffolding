@@ -1,5 +1,4 @@
 exports.gitIgnore = `node_modules/`
-exports.gitIgnore = `node_modules/`
 exports.imports = {
   react: `import React from 'react';`
 };
