@@ -1,54 +1,99 @@
 {
   "react": {
-    "versions": ["16.0.0", "16.1.0"],
+    "versions": [
+      "16.0.0",
+      "16.1.0"
+    ],
     "dev": false
   },
   "redux": {
-    "versions": ["3.7.1", "4.0.0"],
+    "versions": [
+      "3.7.1",
+      "4.0.0"
+    ],
     "dev": false
   },
   "redux-logger": {
-    "versions": ["3.0.6"],
+    "versions": [
+      "3.0.6"
+    ],
     "dev": false
   },
   "redux-thunk": {
-    "versions": ["2.2.0"],
+    "versions": [
+      "2.2.0"
+    ],
     "dev": false
   },
   "react-dom": {
-    "versions": ["16.3.2"],
+    "versions": [
+      "16.3.2"
+    ],
     "dev": false
   },
   "webpack": {
-    "versions": ["3.11.0", "4.8.3"],
+    "versions": [
+      "3.11.0",
+      "4.8.3"
+    ],
     "dev": false
   },
   "webpack-dev-server": {
-    "versions": ["3.1.4"],
+    "versions": [
+      "3.1.4"
+    ],
     "dev": false
   },
   "react-router-dom": {
-    "versions": ["4.2.2"],
+    "versions": [
+      "4.2.2"
+    ],
+    "dev": false
+  },
+  "react-redux": {
+    "versions": ["5.0.7"],
+    "dev": false
+  },
+  "express": {
+    "versions": [
+      "4.16.3"
+    ],
+    "dev": false
+  },
+  "ejs": {
+    "versions": [
+      "2.6.1"
+    ],
     "dev": false
   },
   "babel-core": {
-    "versions": ["6.26.3"],
+    "versions": [
+      "6.26.3"
+    ],
     "dev": true
   },
   "babel-jest": {
-    "versions": ["22.4.3"],
+    "versions": [
+      "22.4.3"
+    ],
     "dev": true
   },
   "babel-loader": {
-    "versions": ["7.1.4"],
+    "versions": [
+      "7.1.4"
+    ],
     "dev": true
   },
   "babel-preset-env": {
-    "versions": ["1.6.1"],
+    "versions": [
+      "1.6.1"
+    ],
     "dev": true
   },
   "babel-preset-react": {
-    "versions": ["6.24.1"],
+    "versions": [
+      "6.24.1"
+    ],
     "dev": true
   }
 }

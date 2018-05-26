@@ -1,6 +1,6 @@
 /* contants */
 const { CHANGE_FOLDER_CMD, NPM_INIT } = require('./../commands');
-const { defaults:{ js, css, webpackConfig}, gitIgnore, imports } = require('./../content');
+const { defaults: { js, css, webpack4Config, serverIndex, views }, gitIgnore, imports } = require('./../content');
 
 /* helpers */
 const getAppName = () => {
@@ -16,7 +16,10 @@ exports.appSchema = {
     content: [gitIgnore]
   }, {
     name: 'webpack.config.js',
-    content: [webpackConfig]
+    content: [webpack4Config]
+  }, {
+    name: 'index.js',
+    content: [serverIndex]
   }, {
     name: 'README.md',
     content: [`# ${getAppName()}`]
@@ -65,5 +68,11 @@ exports.appSubFolderSchema = [{
       name: 'index.css',
       content: [css]
     }],
+  }]
+}, {
+  name: 'views',
+  files: [{
+    name: 'index.html',
+    content: [views.index]
   }]
 }];
