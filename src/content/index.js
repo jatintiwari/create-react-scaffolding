@@ -1,12 +1,25 @@
+const appName = process.argv[2] ||  "myapp";
+
 exports.gitIgnore = `node_modules/`
 exports.imports = {
   react: `import React from "react";`
 };
 exports.defaults = {
-  js: `/**\n* @create-react-scaffolding\n*/`,
-  css: `/* @create-react-scaffolding */`,
+  js: `/**\n* @${appName}\n*/`,
+  css: `/* @${appName} */`,
+  helloReact: `import React from "react";\nimport ReactDOM from "react-dom";\nReactDOM.render(<div>${appName}</div>, document.getElementById("root"));`,
   views: {
-    index: "<h1>Hello!</h1>"
+    index: `
+    <html>
+    <head>
+      <title>${appName}</title>
+    </head>
+    <body>
+      <div id="root"></div>
+      <script src="/bundle.js"></script>
+    </body>
+  </html>
+  `
   },
   serverIndex: `/**
   * dependencies
@@ -53,7 +66,10 @@ exports.defaults = {
   app.listen(app.get("port"), function () {
     console.log("Express server is up on port 3000");
   });`,
-  webpack4Config: `module.exports = {
+  webpack4Config: `
+  const path = require("path");
+
+  module.exports = {
     mode: process.env.NODE_ENV ? "production": "development", 
     entry: "./src/js/index.js",   
     devServer: {

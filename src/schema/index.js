@@ -1,6 +1,6 @@
 /* contants */
 const { CHANGE_FOLDER_CMD, NPM_INIT } = require('./../commands');
-const { defaults: { js, css, webpack4Config, serverIndex, views }, gitIgnore, imports } = require('./../content');
+const { defaults: { js, css, webpack4Config, serverIndex, views, helloReact }, gitIgnore, imports } = require('./../content');
 
 /* helpers */
 const getAppName = () => {
@@ -33,7 +33,7 @@ exports.appSubFolderSchema = [{
     name: 'js',
     files: [{
       name: 'index.js',
-      content: [js]
+      content: [js, helloReact]
     }],
     subFolders: [{
       name: 'components',
