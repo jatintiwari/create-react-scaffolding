@@ -59,4 +59,4 @@ npm install -g create-react-scaffolding
 - package.json
   - `preferGlobal` indicates that the module is designed to be installed globally, otherwise there will be a warning.
   - `bin` entry adds a mapping between the command used in terminal and the actual JavaScript file that will be run each time this command is invoked
-  - `npm link` to symlink the script to `/user/loca/bin/create-react-scaffolding`
+  - `npm link` to symlink the script to `/user/local/bin/create-react-scaffolding`
