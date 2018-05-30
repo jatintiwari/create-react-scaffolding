@@ -1,7 +1,7 @@
 // dependencies
 const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
-const { appSchema, appSubFolderSchema } = require('./schema');
+const { appSchema, appSubFolderSchema, expressSchema } = require('./schema');
 
 /* helpers */
 const getAppName = () => {
@@ -61,3 +61,8 @@ exports.createAppSubFolderSchema = () => {
 exports.createApp = () => {
   return createConstruct([appSchema], undefined);
 };
+
+exports.createExpresApp = (shouldInstall = false) => {
+  if(shouldInstall) return createConstruct([expressSchema], getAppName());
+  return Promise.resolve();
+}

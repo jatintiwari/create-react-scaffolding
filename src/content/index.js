@@ -73,7 +73,8 @@ exports.defaults = {
     mode: process.env.NODE_ENV ? "production": "development", 
     entry: "./src/js/index.js",   
     devServer: {
-      historyApiFallback: true
+      historyApiFallback: true,
+      contentBase: path.resolve(__dirname, "views")
     },
     output: {
       path: path.resolve(__dirname, "dist"), 

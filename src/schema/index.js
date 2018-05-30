@@ -7,9 +7,27 @@ const getAppName = () => {
   return process.argv[2] ? process.argv[2] : 'myapp';
 }
 
+exports.expressSchema = {
+  files: [{
+    name: 'index.html',
+    content: [views.index]
+  }, {
+    name: 'index.js',
+    content: [serverIndex]
+  }],
+  subFolders: [{
+    name: 'views',
+    files: [{
+      name: 'index.html',
+      content: [views.index]
+    }]
+  }]
+};
+
 /* exports */
 exports.appSchema = {
   name: getAppName(),
+  bundle: "react-app",
   cmdPrefix: CHANGE_FOLDER_CMD,
   files: [{
     name: '.gitignore',
@@ -17,9 +35,6 @@ exports.appSchema = {
   }, {
     name: 'webpack.config.js',
     content: [webpack4Config]
-  }, {
-    name: 'index.js',
-    content: [serverIndex]
   }, {
     name: 'README.md',
     content: [`# ${getAppName()}`]
@@ -29,6 +44,7 @@ exports.appSchema = {
 
 exports.appSubFolderSchema = [{
   name: 'src',
+  bundle: "react-app",
   subFolders: [{
     name: 'js',
     files: [{
@@ -68,11 +84,5 @@ exports.appSubFolderSchema = [{
       name: 'index.css',
       content: [css]
     }],
-  }]
-}, {
-  name: 'views',
-  files: [{
-    name: 'index.html',
-    content: [views.index]
   }]
 }];
