@@ -1,7 +1,7 @@
 # Create React Scaffolding
 
 ```sh
-npm install -g create-react-scaffolding
+npm install -g create-react-scaffolding myapp
 ```
 
 ## current versions 
