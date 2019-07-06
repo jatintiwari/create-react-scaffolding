@@ -23,10 +23,10 @@ const askForVersion = (service = undefined, availableVersions = [], options = gl
     terminal.bgRed(error.stack);
   });
 };
-
-exports.askForVersions = () => {
+const askForVersions = (bundleName) => {
   const selectedVersions = {};
-  return Object.keys(versionMap).reduce((pr, serviceName) => {
+  const bundleVersions = Object.keys(versionMap).filter(serviceName => versionMap[serviceName].bundle === bundleName);
+  return bundleVersions.reduce((pr, serviceName) => {
     let service = versionMap[serviceName];
     let versions = service.versions;
     return pr.then((selectedVersions) => {
@@ -38,7 +38,7 @@ exports.askForVersions = () => {
   });
 };
 
-exports.installVersions = (selectedVersions) => {
+const installVersions = (selectedVersions) => {
   return Object.keys(selectedVersions).reduce((pr, serviceName) => {
     let version = selectedVersions[serviceName];
     let serv = versionMap[serviceName];
@@ -48,3 +48,18 @@ exports.installVersions = (selectedVersions) => {
       terminal.bgRed(error.stack);
     });
 };
+
+exports.askForVersions = askForVersions;
+
+exports.installVersions = installVersions;
+
+exports.checkForExpress = () => {
+  return new Promise((resolve, reject) => {
+    terminal.white('\nInstall Express?[Y|n]\n')
+      .yesOrNo({ yes: ['y', 'ENTER'], no: ['n'] }, (error, result) => {
+        if(result){
+          return askForVersions('express-app').then(installVersions).then(resolve.bind(null, result));
+        }
+      });
+  })
+}

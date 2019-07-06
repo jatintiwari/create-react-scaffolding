@@ -6,8 +6,8 @@ const terminal = require('terminal-kit').terminal;
 const commands = require('./commands');
 
 /* imports */
-const { createApp, createAppSubFolderSchema } = require('./createApp');
-const { askForVersions, installVersions } = require('./install');
+const { createApp, createAppSubFolderSchema, createExpresApp } = require('./createApp');
+const { askForVersions, installVersions, checkForExpress } = require('./install');
 /* imports end*/
 
 /* module */
@@ -17,9 +17,11 @@ const init = () => {
 
 init()
   .then(createApp)
-  .then(askForVersions)
+  .then(askForVersions.bind(null, "react-app"))
   .then(installVersions)
   .then(createAppSubFolderSchema)
+  .then(checkForExpress)
+  .then(createExpresApp)
   .then(response => terminal.yellow('\n*** end ***') && process.exit())
   .catch((error) => {
     terminal.red('\nSomething went wrong\n')
